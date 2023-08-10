@@ -1,38 +1,50 @@
 import { Add_movies,Add_favourites, Remove_fav, Show_fav } from "../actions";
+import { combineReducers } from "redux";
 const inititalState={
     list:[],
     favourites:[],
     showFavourite:false
 }
-export default function movies(state=inititalState,action)
+export  function movies(state=inititalState,action)
 {
-//     if(action.type===Add_movies){
-//         return {
-//             ...state,list:action.movies
-//         }
-//     }
-//     return state;
-
-
-    switch(action.type){
-        case Add_movies: return{
-                           ...state,list:action.movies
+switch(action.type){
+    case Add_movies: return{
+                                ...state,list:action.movies
+                            }
+    case Add_favourites:return{
+                                ...state,favourites:[action.movie, ...state.favourites]
+                             }
+    case Remove_fav:
+        const filter_array=state.favourites.filter(movie=>
+            movie.Title !== action.movie.Title
+        )
+        return {
+            ...state, favourites:filter_array
         }
-        case Add_favourites:return{
-                ...state,favourites:[action.movie, ...state.favourites]
-        }
-        case Remove_fav:
-            const filter_array=state.favourites.filter(movie=>
-                movie.Title !== action.movie.Title
-            )
-            return {
-                ...state, favourites:filter_array
-            }
-        case Show_fav:{return{
-            ...state, showFavourite:action.val
-        }   
-        }
-
-        default: return state;             
+    case Show_fav:{return{
+        ...state, showFavourite:action.val
+    }   
     }
+     default: return state;             
 }
+}
+const inititalSearch={
+    result:{}
+}
+export function search(state=inititalSearch,action){
+    return state;
+}
+// const initialRootReducer={
+//     movies:inititalState,
+//     search:inititalSearch
+// }
+// export default function rootReducer(state=initialRootReducer,action){
+//     return{
+//         movies:state.movies,
+//         search:state.search
+//     }
+// }
+export default combineReducers({
+    movies,
+    search
+})

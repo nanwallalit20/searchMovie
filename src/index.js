@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/App';
 import { configureStore } from '@reduxjs/toolkit';
-import movies from './reducers';
+import rootReducer from './reducers';
 
 
 const store=configureStore({
-  reducer:movies
+  reducer:rootReducer
 });
 // console.log('before',store.getState());
 // store.dispatch({
