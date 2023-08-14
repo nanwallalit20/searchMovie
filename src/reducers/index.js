@@ -1,4 +1,4 @@
-import { Add_movies,Add_favourites, Remove_fav, Show_fav } from "../actions";
+import { Add_movies,Add_favourites, Remove_fav, Show_fav ,Add_Search_To_Movies,Add_movies_to_list} from "../actions";
 import { combineReducers } from "redux";
 const inititalState={
     list:[],
@@ -21,18 +21,32 @@ switch(action.type){
         return {
             ...state, favourites:filter_array
         }
-    case Show_fav:{return{
+    case Show_fav:return{
         ...state, showFavourite:action.val
-    }   
     }
-     default: return state;             
+    case Add_movies_to_list:return {
+        ...state, list:[action.movie, ...state.list]
+
+    }
+    default: return state;
+    }
+                 
 }
-}
+
 const inititalSearch={
-    result:{}
+    result:{},
+    showSearchResults:false,
 }
 export function search(state=inititalSearch,action){
-    return state;
+    switch(action.type){
+       case Add_Search_To_Movies:
+       return{
+        ...state,
+        result:action.movie,
+        showSearchResults:true
+       }
+         default: return state;             
+    }
 }
 // const initialRootReducer={
 //     movies:inititalState,
